@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+    
+  <groupId>in.kncsolutions.dhelm.candlepattern</groupId>
+  <artifactId>dhelm-candlepattern</artifactId>
+  <version>1.0.4</version>
+  <packaging>jar</packaging>
+  <description>
+  This library provides the necessary implementations to screen the following patterns:
+    Bullish Belt Hold
+    Bearish Belt Hold
+    Hammer
+    Hanging Man
+    Southern Doji
+    Northern Doji
+    Gapping Up Doji
+    Gapping Down Doji
+    Takuri Line
+    One Candle Shooting Star
+    Bullish Strong Line
+    Bearish Strong Line
+    Bullish Harami
+    Bearish Harami
+    Bullish Engulfing
+    Bearish Engulfing
+    Bullish Kicking
+    Bearish Kicking
+    Matching Low
+    Matching High
+    Bullish Harami Cross
+    Bearish Harami Cross
+    Bullish Doji Star
+    Bearish Doji Star
+    Dark Cloud Cover
+    Piercing Line
+    Descending Hawk
+    Homing Pigeon
+    Bullish Abandoned Baby
+    Bearish Abandoned Baby
+    Three Inside Up
+    Three Inside Down
+    Three Outside Up
+    Three Outside Down
+    Three White Soldiers
+    Three Black Crows
+    Morning Doji Star
+    Evening Doji Star
+    Morning Star
+    Evening Star
+    Upside Tasuki Gap
+    Downside Tasuki Gap
+    Bullish Side by Side White Lines
+    Bearish Side by Side White Lines
+    Rising Three Method
+
+  </description>
+  <name>dhelm-candlepattern</name>
+  <url>https://dhelm.kncsolutions.in</url>
+  
+  <licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+   
+    <organization>
+     <name>KNC Solutions Private Limited. </name>
+  </organization>
+
+	
+	<developers>
+    <developer>
+      <name>Pallav Nandi Chaudhuri</name>
+      <email>developer@kncsolutions.in</email>
+      <organization>Knc Solutions Private Limited</organization>
+      <organizationUrl>https://www.dhelm.kncsolutions.in</organizationUrl>
+    </developer>
+  </developers>
+  
+  <scm>
+    <connection>scm:git:https://github.com/kncsolutions/dhelm-candlepattern.git</connection>
+    <developerConnection>scm:git:https://github.com/kncsolutions/dhelm-candlepattern.git</developerConnection>
+    <url>https://github.com/kncsolutions/dhelm-candlepattern</url>
+  </scm>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+    
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+	<dependency>
+      <groupId>in.kncsolutions.dhelm.exceptions</groupId>
+      <artifactId>dhelm-exceptions</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+	<dependency>
+      <groupId>in.kncsolutions.dhelm.mathcal</groupId>
+      <artifactId>dhelm-mathcal</artifactId>
+      <version>1.0.4</version>
+	</dependency>
+	<dependency>
+      <groupId>in.kncsolutions.dhelm.candlebasic</groupId>
+      <artifactId>dhelm-candlebasic</artifactId>
+      <version>1.0.4</version>
+	</dependency>
+  </dependencies>
+  
+  <distributionManagement>
+  <snapshotRepository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </snapshotRepository>
+  <repository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+  </repository>
+</distributionManagement>
+  
+  <build>
+	<plugins>
+   <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.0</version>
+          <configuration>
+            <source>1.8</source>
+             <target>1.8</target>
+          </configuration>
+    </plugin> 
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+              <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+       <groupId>org.sonatype.plugins</groupId>
+       <artifactId>nexus-staging-maven-plugin</artifactId>
+       <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+         <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+           <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+     </plugin>	
+     <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-source-plugin</artifactId>
+      <version>2.2.1</version>
+      <configuration>
+        <forceCreation>true</forceCreation>
+         <includePom>true</includePom>
+         <useDefaultManifestFile>true</useDefaultManifestFile>
+      </configuration>
+      <executions>
+        <execution>
+          <id>attach-sources</id>
+          <goals>
+            <goal>jar-no-fork</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-javadoc-plugin</artifactId>
+         <version>3.0.0</version>
+			<executions>
+				<execution>
+					<id>attach-javadocs</id>
+					<goals>
+						<goal>jar</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin> 
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-site-plugin</artifactId>
+            <version>3.3</version>
+                    <executions>
+          <execution>
+            <id>attach-descriptor</id>
+            <goals>
+              <goal>attach-descriptor</goal>
+            </goals>
+          </execution>
+        </executions>
+			<configuration>        
+              <aggregate>true</aggregate>       
+             </configuration>
+</plugin>           
+	</plugins>
+	</build>
+    <reporting>
+      <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>        
+           <aggregate>true</aggregate>       
+        </configuration>
+      </plugin>
+      </plugins>    
+</reporting> 
+</project>

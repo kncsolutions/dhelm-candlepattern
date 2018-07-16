@@ -1,0 +1,84 @@
+/**
+ *Copyright 2018 Knc Solutions Private Limited
+
+  *Licensed under the Apache License, Version 2.0 (the "License");
+  *you may not use this file except in compliance with the License.
+  *You may obtain a copy of the License at
+
+  * http://www.apache.org/licenses/LICENSE-2.0
+
+  *Unless required by applicable law or agreed to in writing, software
+  *distributed under the License is distributed on an "AS IS" BASIS,
+  *WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  *See the License for the specific language governing permissions and
+  *limitations under the License.
+ */
+ package in.kncsolutions.dhelm.candlepattern.oneline;
+ import java.util.*; 
+ import in.kncsolutions.dhelm.candlebasic.*;
+ import in.kncsolutions.dhelm.exceptions.DataException;
+ import in.kncsolutions.dhelm.mathcal.Mathfns;
+ /**
+ *According to literature the HangingMan pattern is a single line pattern composed of
+ *a  white or black candle with small body. There should be no or very small upper shadow. The lower shadow should be significantly
+ * longer than the body. The candle appears as a long candle. The prior trend should be up trend. 
+ */
+ public class HangingMan{
+   private List<Double> Open=new ArrayList<Double>();
+   private List<Double> High=new ArrayList<Double>();
+   private List<Double> Low=new ArrayList<Double>();
+   private List<Double> Close=new ArrayList<Double>();
+   private int RefLength;
+   private int RefTrend;;
+   private double Percentage;
+   private double []trendPrior={0,0};
+   private boolean isHangingMan;
+   /**
+  *@param open : List of opening prices where first element is the latest data.
+  *@param high : List of high prices where first element is the latest data.
+  *@param low : List of low prices where first element is the latest data.
+  *@param close : List of closing prices where first element is the latest data.
+  *@param numLen : Number of previous periods w.r.t which it is to be found that if the latest candle is long or short.
+  *@param numTrend : Number of previous periods w.r.t which the previous trend have to be approximated.
+  *@param percentage : The percentage by which if the latest candle is longer than the previous candles, it will be treated as a long candle, otherwise short. 
+  *@throws DataException if sufficient data not available. 
+  */
+   public HangingMan(List<Double> open,List<Double> high,List<Double> low,List<Double> close,int numLen,int numTrend,double percentage)throws DataException{
+     Open.addAll(open);
+	 High.addAll(high);
+	 Low.addAll(low);
+	 Close.addAll(close);
+	 RefLength=numLen;
+	 RefTrend=numTrend;
+	 Percentage=percentage;
+	 isHangingMan=false;
+	 if(Open.size()<((RefTrend+1>RefLength) ? RefTrend+1 : RefLength)
+        || (Open.size()!=Close.size() || Open.size()!=High.size() || Open.size()!=Low.size() )){
+	   throw new DataException();
+	 }
+	 else{
+	   HangingMan();
+	 }
+   }
+   /*
+   *
+   */
+   private void HangingMan()throws DataException{
+     if((new WhiteSpinningTop(Open,High,Low,Close,RefLength,Percentage)).isLongWhiteSpinningTop()
+	     || (new BlackSpinningTop(Open,High,Low,Close,RefLength,Percentage)).isLongBlackSpinningTop()){
+		if(High.get(0)-Math.max(Open.get(0),Close.get(0))<=Math.abs(Open.get(0)-Close.get(0))
+		   && Math.min(Open.get(0),Close.get(0))-Low.get(0)>=2*Math.abs(Open.get(0)-Close.get(0))
+		      && Math.min(Open.get(0),Close.get(0))-Low.get(0)<=3*Math.abs(Open.get(0)-Close.get(0))){
+			  trendPrior=Mathfns.ComputeTrendLine(Close.subList(1,RefTrend+1),Close.subList(1,RefTrend+1).size());
+			  if(trendPrior[0]<0)
+			    isHangingMan=true;
+		}
+	 }
+   }
+   /**
+   *@return Returns true if the HangingMan pattern is generated. 
+   */
+   public boolean isHangingMan(){
+     return isHangingMan;
+   }
+ }
